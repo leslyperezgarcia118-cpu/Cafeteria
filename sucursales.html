@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucursales - Café Emir</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0d0b, #2e1b16);
+            color: #e0d4c7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid #4a2c2a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #d9a67a;
+        }
+        nav {
+            background: #2e1b16;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #4a2c2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #e0d4c7;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+        nav a:hover {
+            color: #d9a67a;
+        }
+        nav input[type="text"] {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            margin: 0 20px;
+            background: #4a2c2a;
+            color: #e0d4c7;
+            outline: none;
+            font-size: 1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .location-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+        .location-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .location-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .location-item .details {
+            flex-grow: 1;
+        }
+        .location-item h3 {
+            font-size: 1.5rem;
+            color: #e0d4c7;
+            margin: 0 0 5px 0;
+        }
+        .location-item p {
+            font-size: 1.1rem;
+            color: #c9b7a6;
+            margin: 5px 0;
+        }
+        #location-input {
+            width: 70%;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 20px;
+            border: 1px solid #4a2c2a;
+            background: #2e1b16;
+            color: #e0d4c7;
+            font-size: 1rem;
+        }
+        #use-current-location {
+            padding: 10px 20px;
+            background: #d9a67a;
+            color: #1a0d0b;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background 0.3s ease;
+        }
+        #use-current-location:hover {
+            background: #b57d4d;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sucursales - Café Emir</h1>
+    </header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="mezclas.html">Mezclas de Café</a>
+        <a href="snacks.html">Snacks</a>
+        <a href="tisanas.html">Tisanas</a>
+        <a href="menu.html">Menú</a>
+        <a href="sucursales.html">Sucursales</a>
+        <input type="text" placeholder="Búsqueda" id="search-input">
+        <a href="#" id="cart-link">Carrito (0)</a>
+    </nav>
+    <div class="container">
+        <div class="location-item">
+            <img src="https://th.bing.com/th/id/OIP.91UPDfYRuV-Quog4gFDC5QHaEK?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sucursal CDMX">
+            <div class="details">
+                <h3>Sucursal Ciudad de México</h3>
+                <p>Av. Reforma 123, Centro, 06000 CDMX</p>
+            </div>
+        </div>
+        <div class="location-item">
+            <img src="https://escapadas.mexicodesconocido.com.mx/wp-content/uploads/2020/12/Depositphotos_378369622_xl-2015-scaled.jpg" alt="Sucursal Guadalajara">
+            <div class="details">
+                <h3>Sucursal Guadalajara</h3>
+                <p>Calle Morelos 456, Centro, 44100 Guadalajara, Jal.</p>
+            </div>
+        </div>
+        <div class="location-item">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.sdAgscjEPNusuZpRM89MNwHaE7?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sucursal Monterrey">
+            <div class="details">
+                <h3>Sucursal Monterrey</h3>
+                <p>Av. Juárez 789, Centro, 64000 Monterrey, N.L.</p>
+            </div>
+        </div>
+        <input type="text" id="location-input" placeholder="Ingresa una ubicación (ej. Ciudad de México)">
+        <button id="use-current-location">Usar mi ubicación</button>
+        <div id="map"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+        let map;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el mapa con una ubicación por defecto (CDMX)
+            map = L.map('map').setView([19.4326, -99.1332], 10); // Centro en CDMX, zoom 10
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Añadir marcadores para las sucursales
+            const sucursales = [
+                { name: "Sucursal CDMX", coords: [19.4326, -99.1332], address: "Av. Reforma 123, Centro, 06000 CDMX" },
+                { name: "Sucursal Guadalajara", coords: [20.6734, -103.3431], address: "Calle Morelos 456, Centro, 44100 Guadalajara, Jal." },
+                { name: "Sucursal Monterrey", coords: [25.6866, -100.3161], address: "Av. Juárez 789, Centro, 64000 Monterrey, N.L." }
+            ];
+
+            sucursales.forEach(sucursal => {
+                L.marker(sucursal.coords)
+                    .addTo(map)
+                    .bindPopup(`<b>${sucursal.name}</b><br>${sucursal.address}`)
+                    .openPopup();
+            });
+
+            // Función para geocodificar y actualizar el mapa
+            function updateMap(lat, lon) {
+                map.setView([lat, lon], 12);
+                fetchNearbyCafes(lat, lon);
+            }
+
+            // Geocodificación con Nominatim (OSM)
+            document.getElementById('location-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const location = document.getElementById('location-input').value;
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                const { lat, lon } = data[0];
+                                updateMap(lat, lon);
+                            } else {
+                                alert('Ubicación no encontrada');
+                            }
+                        })
+                        .catch(error => console.error('Error geocoding:', error));
+                }
+            });
+
+            // Usar ubicación actual
+            document.getElementById('use-current-location').addEventListener('click', () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            updateMap(latitude, longitude);
+                        },
+                        () => {
+                            alert('No se pudo obtener tu ubicación. Por favor, ingresa una manualmente.');
+                        }
+                    );
+                } else {
+                    alert('Tu navegador no soporta geolocalización. Ingresa una ubicación manualmente.');
+                }
+            });
+
+            // Función para buscar cafeterías cercanas (máximo 5 km)
+            function fetchNearbyCafes(lat, lon) {
+                const overpassUrl = "https://overpass-api.de/api/interpreter";
+                const query = `
+                    [out:json];
+                    (
+                      node["amenity"="cafe"](around:5000, ${lat}, ${lon});
+                    );
+                    out body;
+                    >;
+                    out skel qt;
+                `;
+                fetch(overpassUrl, {
+                    method: "POST",
+                    body: query
+                })
+                .then(response => response.json())
+                .then(data => {
+                    map.eachLayer(layer => {
+                        if (layer instanceof L.Marker && !sucursales.some(s => s.coords[0] === layer.getLatLng().lat && s.coords[1] === layer.getLatLng().lng)) {
+                            map.removeLayer(layer);
+                        }
+                    });
+                    data.elements.forEach(element => {
+                        if (element.tags && element.tags.name) {
+                            L.marker([element.lat, element.lon])
+                                .addTo(map)
+                                .bindPopup(`<b>${element.tags.name}</b><br>Cafetería cercana`);
+                        }
+                    });
+                })
+                .catch(error => console.error("Error fetching nearby cafes:", error));
+            }
+        });
+    </script>
+</body>
+</html>

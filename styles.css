@@ -1,0 +1,561 @@
+/*============================================================================
+  #Typography
+==============================================================================*/
+
+@font-face {
+  font-family: 'Nunito';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofINeaBTMnFcQIG.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofIOOaBTMnFcQIG.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Sans';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/instrumentsans/v1/6xKvdShfF3W3RS2Y8wD4B-Q.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Sans';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/instrumentsans/v1/6xKvdShfF3W3RS2Y8wD4B-Q.woff2') format('woff2');
+}
+
+/*============================================================================
+  #General Variables
+==============================================================================*/
+
+:root {
+  --logo-max-width: 210px;
+  --swiper-navigation-size: 44px;
+  --swiper-theme-color: #D4AF37; /* Dorado */
+
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-weight-header-bold: 900;
+
+  --header-font-stack: 'Nunito', sans-serif;
+  --header-font-weight: 700;
+  --header-font-style: normal;
+  --header-text-size: 28;
+  --header-text-size-px: 28px;
+
+  --header-font-case: uppercase;
+  --header-font-size: 14;
+  --header-font-size-px: 14px;
+
+  --heading-spacing: 0px;
+  --heading-font-case: normal;
+  --heading-font-stack: 'Nunito', sans-serif;
+
+  --body-font-stack: 'Instrument Sans', sans-serif;
+  --body-font-weight: 400;
+  --body-font-style: normal;
+
+  --navigation-font-stack: 'Nunito', sans-serif;
+  --navigation-font-weight: 700;
+  --navigation-font-style: normal;
+
+  --base-font-size-int: 14;
+  --base-font-size: 14px;
+
+  --body-font-size-12-to-em: 0.86em;
+  --body-font-size-14-to-em: 1.0em;
+  --body-font-size-16-to-em: 1.14em;
+  --body-font-size-18-to-em: 1.29em;
+  --body-font-size-20-to-em: 1.43em;
+  --body-font-size-22-to-em: 1.57em;
+  --body-font-size-24-to-em: 1.71em;
+  --body-font-size-28-to-em: 2.0em;
+  --body-font-size-36-to-em: 2.57em;
+
+  /* Colores inspirados en Café Emir: Beige, marrón, dorado */
+  --sale-badge-color: #D4AF37; /* Dorado */
+  --sold-out-badge-color: #000;
+  --badge-font-color: #fff;
+
+  --primary-btn-text-color: #fff;
+  --primary-btn-bg-color: #3C2F2F; /* Marrón oscuro */
+  --primary-btn-bg-color-lighten50: #5C4B4B;
+  --primary-btn-bg-color-opacity50: rgba(60, 47, 47, 0.5);
+  --primary-btn-bg-hover-color: #D4AF37; /* Dorado hover */
+  --primary-btn-text-hover-color: #3C2F2F;
+
+  --button-text-case: none;
+  --button-font-size: 12;
+  --button-font-size-px: 12px;
+
+  --secondary-btn-text-color: #3C2F2F;
+  --secondary-btn-bg-color: #D4AF37; /* Dorado */
+  --secondary-btn-bg-color-lighten: #F0E68C;
+  --secondary-btn-bg-hover-color: #F0E68C;
+  --secondary-btn-bg-text-hover-color: #3C2F2F;
+
+  --alt-btn-font-style: normal;
+  --alt-btn-font-weight: 400;
+
+  --text-color: #4A4A4A; /* Gris oscuro */
+  --text-color-lighten5: #5A5A5A;
+  --text-color-lighten70: #F5F5DC; /* Beige */
+  --text-color-transparent05: rgba(74, 74, 74, 0.05);
+  --text-color-transparent15: rgba(74, 74, 74, 0.15);
+  --text-color-transparent5: rgba(74, 74, 74, 0.5);
+  --text-color-transparent6: rgba(74, 74, 74, 0.6);
+  --text-color-transparent7: rgba(74, 74, 74, 0.7);
+  --text-color-transparent8: rgba(74, 74, 74, 0.8);
+
+  --product-page-font-size: 24;
+  --product-page-font-size-px: 24px;
+  --product-page-font-case: normal;
+  --product-page-font-weight: 500;
+
+  --link-color: #3C2F2F; /* Marrón oscuro */
+  --on-sale-color: #D4AF37; /* Dorado */
+
+  --body-color: #F5F5DC; /* Beige suave */
+  --body-color-darken10: #EDE4C7;
+  --body-color-transparent00: rgba(245, 245, 220, 0);
+  --body-color-transparent90: rgba(245, 245, 220, 0.9);
+
+  --body-secondary-color: #FAF9F6; /* Crema */
+  --body-secondary-color-transparent00: rgba(250, 249, 246, 0);
+  --body-secondary-color-darken05: #F0EEE8;
+
+  --color-primary-background: #F5F5DC; /* Beige suave */
+  --color-primary-background-rgb: 245, 245, 220;
+  --color-secondary-background: #FAF9F6; /* Crema */
+
+  --cart-background-color: #3C2F2F; /* Marrón oscuro */
+
+  --border-color: rgba(60, 47, 47, 0.2);
+  --border-color-darken10: #2F2626;
+
+  --header-color: #3C2F2F; /* Marrón oscuro */
+  --header-color-darken5: #2F2626;
+  --header-color-lighten5: #5C4B4B;
+
+  --header-border-color: rgba(60, 47, 47, 0.1);
+
+  --announcement-text-size: 14px;
+  --announcement-text-spacing: 1px;
+  --announcement-text-case: none;
+  --announcement-font-style: normal;
+  --announcement-font-weight: 400;
+
+  --logo-font-size: 18px;
+
+  --overlay-header-text-color: #fff;
+  --nav-text-color: #D4AF37; /* Dorado */
+  --nav-text-hover: #3C2F2F; /* Marrón oscuro */
+
+  --color-scheme-light-background: #F5F5DC; /* Beige suave */
+  --color-scheme-light-background-lighten5: #FAF9F6;
+  --color-scheme-light-text: #4A4A4A; /* Gris oscuro */
+  --color-scheme-light-text-transparent60: rgba(74, 74, 74, 0.6);
+
+  --color-scheme-feature-background: #D4AF37; /* Dorado */
+  --color-scheme-feature-background-lighten5: #F0E68C;
+  --color-scheme-feature-text: #3C2F2F;
+  --color-scheme-feature-text-transparent60: rgba(60, 47, 47, 0.6);
+
+  --homepage-sections-accent-secondary-color-transparent60: rgba(212, 175, 55, 0.6); /* Dorado transparente */
+
+  --color-scheme-dark-background: #3C2F2F;
+  --color-scheme-dark-text: #D4AF37;
+  --color-scheme-dark-text-transparent60: rgba(212, 175, 55, 0.6);
+
+  --filter-bg-color: rgba(60, 47, 47, 0.1);
+
+  --color-footer-bg: #3C2F2F; /* Marrón oscuro */
+  --color-footer-bg-darken5: #2F2626;
+  --color-footer-text: #D4AF37; /* Dorado */
+  --color-footer-text-darken10: #B8860B;
+  --color-footer-border: rgba(212, 175, 55, 0.1);
+
+  --popup-text-color: #4A4A4A; /* Gris oscuro */
+  --popup-text-color-lighten10: #5A5A5A;
+  --popup-bg-color: #F5F5DC; /* Beige suave */
+
+  --menu-drawer-color: #F5F5DC; /* Beige suave */
+  --menu-drawer-color-darken5: #EDE4C7;
+  --menu-drawer-text-color: #3C2F2F; /* Marrón oscuro */
+  --menu-drawer-border-color: rgba(60, 47, 47, 0.1);
+  --menu-drawer-text-hover-color: #D4AF37; /* Dorado */
+
+  --cart-drawer-color: #F5F5DC; /* Beige suave */
+  --cart-drawer-text-color: #4A4A4A; /* Gris oscuro */
+  --cart-drawer-text-color-lighten10: #5A5A5A;
+  --cart-drawer-border-color: rgba(60, 47, 47, 0.2);
+
+  --fancybox-overlay: url('//www.emircafe.mx/cdn/shop/t/5/assets/fancybox_overlay.png?v=61793926319831825281653517529');
+}
+
+/*============================================================================
+  #General Styles
+==============================================================================*/
+
+html {
+  box-sizing: border-box;
+  background-color: var(--body-color);
+  height: 100%;
+  margin: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: var(--body-color);
+  min-height: 100%;
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+  font-family: var(--body-font-stack);
+  font-weight: var(--body-font-weight);
+  font-style: var(--body-font-style);
+  color: var(--text-color);
+  line-height: 1.8;
+  font-size: var(--base-font-size);
+}
+
+/* Clase para accesibilidad */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
+/* Header y Nav (similar a Emir Cafe: Marrón oscuro con dorado) */
+header {
+  background: var(--header-color);
+  padding: 15px 30px;
+  border-bottom: 1px solid var(--header-border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  height: 50px;
+  max-width: var(--logo-max-width);
+  font-size: var(--logo-font-size);
+  font-family: var(--header-font-stack);
+  font-weight: var(--font-weight-bold);
+  color: var(--nav-text-color);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--nav-text-color);
+  text-decoration: none;
+  font-family: var(--navigation-font-stack);
+  font-weight: var(--navigation-font-weight);
+  font-style: var(--navigation-font-style);
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--nav-text-hover);
+}
+
+#search {
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+  width: 250px;
+  background: var(--body-secondary-color);
+  color: var(--text-color);
+  font-family: var(--body-font-stack);
+  transition: border-color 0.3s ease;
+}
+
+#search:focus {
+  border-color: var(--primary-btn-bg-color);
+  outline: none;
+}
+
+#account-link a,
+#cart {
+  color: var(--nav-text-color);
+  font-weight: var(--font-weight-bold);
+  padding: 10px 15px;
+  border-radius: 25px;
+  transition: background 0.3s ease;
+}
+
+#account-link a:hover,
+#cart:hover {
+  background: var(--text-color-transparent05);
+}
+
+/* Hero y títulos */
+.hero {
+  width: 100%;
+  height: auto;
+  border-radius: 0 0 10px 10px;
+  margin: 0;
+}
+
+.page-title {
+  font-family: var(--header-font-stack);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--header-text-size-px);
+  color: var(--text-color);
+  text-align: center;
+  padding: 20px 0;
+  text-transform: var(--header-font-case);
+  letter-spacing: 1px;
+}
+
+/* Main y Grid (para lista de sucursales) */
+main {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.store-locator-form {
+  background: var(--body-secondary-color);
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 10px var(--text-color-transparent15);
+  text-align: center;
+}
+
+.store-locator-form input,
+.store-locator-form button {
+  padding: 12px 20px;
+  margin: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-family: var(--body-font-stack);
+}
+
+.store-locator-form button {
+  background: var(--secondary-btn-bg-color);
+  color: var(--secondary-btn-text-color);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.store-locator-form button:hover {
+  background: var(--secondary-btn-bg-hover-color);
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  background: #E0E0E0; /* Placeholder para mapa */
+}
+
+.branches-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.branch-card {
+  background: var(--body-color);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px var(--text-color-transparent15);
+  transition: box-shadow 0.3s ease;
+}
+
+.branch-card:hover {
+  box-shadow: 0 4px 15px var(--text-color-transparent5);
+}
+
+.branch-card h3 {
+  font-family: var(--header-font-stack);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-btn-bg-color);
+  margin-bottom: 10px;
+}
+
+.branch-card p {
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+/* Modal Carrito */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--text-color-transparent5);
+}
+
+.modal-content {
+  background: var(--body-color);
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px var(--text-color-transparent15);
+  text-align: center;
+}
+
+.close {
+  color: var(--text-color);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--primary-btn-bg-color);
+}
+
+#cart-items {
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+#cart-items li {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cart-summary {
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 10px;
+  background: var(--body-secondary-color);
+  border-radius: 5px;
+}
+
+.checkout-btn,
+.clear-btn {
+  background: var(--primary-btn-bg-color);
+  color: var(--primary-btn-text-color);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background: var(--primary-btn-bg-hover-color);
+}
+
+.clear-btn {
+  background: var(--sale-badge-color);
+}
+
+.clear-btn:hover {
+  background: #C44545;
+}
+
+/* Formularios Auth */
+.auth-body {
+  background: var(--body-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-container {
+  background: var(--body-secondary-color);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px var(--text-color-transparent15);
+  width: 350px;
+  text-align: center;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background: var(--body-color);
+}
+
+.form-container button {
+  background: var(--secondary-btn-bg-color);
+  color: var(--secondary-btn-text-color);
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Footer */
+footer {
+  background: var(--header-color);
+  color: var(--nav-text-color);
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav { flex-direction: column; gap: 15px; }
+  #search { width: 100%; margin: 10px 0; }
+  .branches-list { grid-template-columns: 1fr; }
+  .store-locator-form { padding: 20px; }
+  #map { height: 300px; }
+}

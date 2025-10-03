@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - Café Emir</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0d0b, #2e1b16);
+            color: #e0d4c7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid #4a2c2a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #d9a67a;
+        }
+        nav {
+            background: #2e1b16;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #4a2c2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #e0d4c7;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+        nav a:hover {
+            color: #d9a67a;
+        }
+        nav input[type="text"] {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            margin: 0 20px;
+            background: #4a2c2a;
+            color: #e0d4c7;
+            outline: none;
+            font-size: 1rem;
+        }
+        .menu-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .menu-category {
+            margin-bottom: 30px;
+        }
+        .menu-category h2 {
+            font-size: 2rem;
+            color: #d9a67a;
+            border-bottom: 2px solid #4a2c2a;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .menu-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .menu-item .details {
+            flex-grow: 1;
+        }
+        .menu-item h3 {
+            font-size: 1.5rem;
+            color: #e0d4c7;
+            margin: 0 0 5px 0;
+        }
+        .menu-item p {
+            font-size: 1.1rem;
+            color: #c9b7a6;
+            margin: 5px 0;
+        }
+        .menu-item button {
+            background: linear-gradient(45deg, #d9a67a, #b57d4d);
+            color: #1a0d0b;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .menu-item button:hover {
+            background: linear-gradient(45deg, #b57d4d, #d9a67a);
+            transform: scale(1.05);
+        }
+        /* Cart Styles */
+        .cart-overlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f4e4bc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            text-align: center;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .cart-overlay.show {
+            display: block;
+        }
+        .cart-overlay h2 {
+            margin: 0 0 10px;
+            color: #4a2c2a;
+        }
+        .cart-overlay ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .cart-overlay li {
+            margin: 5px 0;
+            color: #666;
+        }
+        .cart-overlay p {
+            margin: 10px 0;
+            color: #666;
+            font-weight: bold;
+        }
+        .cart-overlay button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart-overlay .proceed {
+            background: #4a2c2a;
+            color: white;
+        }
+        .cart-overlay .proceed:hover {
+            background: #2e1b16;
+        }
+        .cart-overlay .clear {
+            background: #d9a67a;
+            color: #1a0d0b;
+        }
+        .cart-overlay .clear:hover {
+            background: #b57d4d;
+        }
+        .cart-overlay .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a2c2a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Menú - Café Emir</h1>
+    </header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="mezclas.html">Mezclas de Café</a>
+        <a href="snacks.html">Snacks</a>
+        <a href="tisanas.html">Tisanas</a>
+        <a href="menu.html">Menú</a>
+        <a href="sucursales.html">Sucursales</a>
+        <input type="text" placeholder="Búsqueda" id="search-input">
+        <a href="#" id="cart-link">Carrito (0)</a>
+    </nav>
+    <div class="menu-container">
+        <div class="menu-category">
+            <h2>Cafés Calientes</h2>
+            <div class="menu-item">
+                <img src="https://brookrest.com/wp-content/uploads/2020/05/AdobeStock_315919556-scaled.jpeg" alt="Café Latte">
+                <div class="details">
+                    <h3>Café Latte</h3>
+                    <p>300ml - Crema suave con espresso. $90</p>
+                </div>
+                <button data-id="1" data-name="Café Latte" data-price="90">Agregar</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://tse1.mm.bing.net/th/id/OIP.ODU5HsPVcZ10pANP1pkgWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Capuchino">
+                <div class="details">
+                    <h3>Capuchino</h3>
+                    <p>300ml - Espresso con espuma de leche. $100</p>
+                </div>
+                <button data-id="2" data-name="Capuchino" data-price="100">Agregar</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.Ox6jL9hGWogKiX7nBcvmRAHaHR?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Americano">
+                <div class="details">
+                    <h3>Americano</h3>
+                    <p>250ml - Espresso diluido. $80</p>
+                </div>
+                <button data-id="3" data-name="Americano" data-price="80">Agregar</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://tse3.mm.bing.net/th/id/OIP.izQMNEk3FoXUOVIW4O1eQgHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Espresso">
+                <div class="details">
+                    <h3>Espresso</h3>
+                    <p>50ml - Intenso y puro. $70</p>
+                </div>
+                <button data-id="4" data-name="Espresso" data-price="70">Agregar</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://th.bing.com/th/id/OIP.A4rgoEl49RSAHJCYgWV_KgHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Mocha">
+                <div class="details">
+                    <h3>Mocha</h3>
+                    <p>300ml - Chocolate y espresso. $110</p>
+                </div>
+                <button data-id="5" data-name="Mocha" data-price="110">Agregar</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://tse3.mm.bing.net/th/id/OIP.rT-yA6yxqzXTgH-5F2lyTAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Macchiato">
+                <div class="details">
+                    <h3>Macchiato</h3>
+                    <p>150ml - Espresso con toque de leche. $85</p>
+                </div>
+                <button data-id="6" data-name="Macchiato" data-price="85">Agregar</button>
+            </div>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cart-overlay">
+        <button class="close" onclick="document.getElementById('cart-overlay').classList.remove('show')">×</button>
+        <h2>Tu Carrito</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: $<span id="cart-total">0.00</span></p>
+        <button class="proceed" onclick="proceedToCheckout()">Proceder a comprar</button>
+        <button class="clear" onclick="clearCart()">Vaciar Carrito</button>
+    </div>
+    <script>
+        let cart = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartDisplay();
+            }
+            loadProducts();
+        });
+
+        document.querySelectorAll('.menu-item button').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const price = parseFloat(button.getAttribute('data-price'));
+
+                const item = cart.find(item => item.id === id);
+                if (item) {
+                    item.quantity += 1;
+                } else {
+                    cart.push({ id, name, price, quantity: 1 });
+                }
+                saveCart();
+                updateCartDisplay();
+                alert(`${name} agregado al carrito!`);
+            });
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                const name = item.querySelector('h3').textContent.toLowerCase();
+                if (name.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('cart-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('cart-overlay').classList.add('show');
+            updateCartDisplay();
+        });
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
+                cartItems.appendChild(li);
+                total += item.price * item.quantity;
+            });
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+            document.getElementById('cart-link').textContent = `Carrito (${cart.reduce((sum, item) => sum + item.quantity, 0)})`;
+        }
+
+        function clearCart() {
+            cart = [];
+            saveCart();
+            updateCartDisplay();
+            document.getElementById('cart-overlay').classList.remove('show');
+        }
+
+        function proceedToCheckout() {
+            if (cart.length > 0) {
+                saveCart();
+                window.location.href = 'checkout.html';
+            } else {
+                alert('El carrito está vacío!');
+            }
+        }
+
+        function loadProducts() {
+            // Placeholder for SQL data fetch
+            // fetch('/api/products?category=menu')
+            //     .then(response => response.json())
+            //     .then(products => {
+            //         const container = document.querySelector('.menu-category');
+            //         container.innerHTML = '<h2>Cafés Calientes</h2>';
+            //         products.forEach(product => {
+            //             const item = document.createElement('div');
+            //             item.className = 'menu-item';
+            //             item.innerHTML = `
+            //                 <img src="https://via.placeholder.com/100x100?text=${product.name}" alt="${product.name}">
+            //                 <div class="details">
+            //                     <h3>${product.name}</h3>
+            //                     <p>${product.size} - $${product.price}</p>
+            //                 </div>
+            //                 <button data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Agregar</button>
+            //             `;
+            //             container.appendChild(item);
+            //         });
+            //         document.querySelectorAll('.menu-item button').forEach(button => {
+            //             button.addEventListener('click', () => {
+            //                 const id = button.getAttribute('data-id');
+            //                 const name = button.getAttribute('data-name');
+            //                 const price = parseFloat(button.getAttribute('data-price'));
+            //                 const item = cart.find(item => item.id === id);
+            //                 if (item) {
+            //                     item.quantity += 1;
+            //                 } else {
+            //                     cart.push({ id, name, price, quantity: 1 });
+            //                 }
+            //                 saveCart();
+            //                 updateCartDisplay();
+            //                 alert(`${name} agregado al carrito!`);
+            //             });
+            //         });
+            //     })
+            //     .catch(error => console.error('Error loading products:', error));
+        }
+    </script>
+</body>
+</html>

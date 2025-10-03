@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks - Café Emir</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0d0b, #2e1b16);
+            color: #e0d4c7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid #4a2c2a;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        nav {
+            background: #2e1b16;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #4a2c2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        nav a {
+            color: #e0d4c7;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #d9a67a;
+        }
+        nav input[type="text"] {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 20px;
+            margin: 0 20px;
+            background: #4a2c2a;
+            color: #e0d4c7;
+            outline: none;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .item img {
+            max-width: 100%;
+            border-radius: 10px;
+            filter: brightness(1.1);
+            transition: filter 0.3s ease;
+        }
+        .item img:hover {
+            filter: brightness(1.3);
+        }
+        .item h3 {
+            font-size: 1.5rem;
+            color: #d9a67a;
+            margin: 15px 0;
+            text-transform: capitalize;
+        }
+        .item p {
+            font-size: 1.1rem;
+            color: #c9b7a6;
+            margin-bottom: 20px;
+        }
+        .item button {
+            background: linear-gradient(45deg, #d9a67a, #b57d4d);
+            color: #1a0d0b;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .item button:hover {
+            background: linear-gradient(45deg, #b57d4d, #d9a67a);
+            transform: scale(1.05);
+        }
+        /* Cart Styles */
+        .cart-overlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f4e4bc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            text-align: center;
+        }
+        .cart-overlay.show {
+            display: block;
+        }
+        .cart-overlay h2 {
+            margin: 0 0 10px;
+            color: #4a2c2a;
+        }
+        .cart-overlay ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .cart-overlay li {
+            margin: 5px 0;
+            color: #666;
+        }
+        .cart-overlay p {
+            margin: 10px 0;
+            color: #666;
+        }
+        .cart-overlay button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart-overlay .proceed {
+            background: #4a2c2a;
+            color: white;
+        }
+        .cart-overlay .proceed:hover {
+            background: #2e1b16;
+        }
+        .cart-overlay .clear {
+            background: #d9a67a;
+            color: #1a0d0b;
+        }
+        .cart-overlay .clear:hover {
+            background: #b57d4d;
+        }
+        .cart-overlay .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a2c2a;
+        }
+    </style>
+</head>
+<body>
+  <footer>
+    <h3>Registros de Compra</h3>
+    <ul id="purchase-history"></ul>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPurchaseHistory();
+    });
+
+    function loadPurchaseHistory() {
+        const purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+        const footerList = document.getElementById('purchase-history');
+        footerList.innerHTML = '';
+        purchaseHistory.forEach((purchase, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${purchase.date}</strong><br>Total: $${purchase.total.toFixed(2)}<br>Items: ${purchase.items.map(item => `${item.name} x${item.quantity}`).join(', ')}`;
+            footerList.appendChild(li);
+        });
+    }
+</script>
+    <header>
+        <h1>Snacks - Café Emir</h1>
+    </header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="mezclas.html">Mezclas de Café</a>
+        <a href="snacks.html">Snacks</a>
+        <a href="tisanas.html">Tisanas</a>
+        <a href="menu.html">Menú</a>
+        <a href="sucursales.html">Sucursales</a>
+        <input type="text" placeholder="Búsqueda" id="search-input">
+        <a href="#" id="cart-link">Carrito (0)</a>
+    </nav>
+    <div class="container" id="product-container">
+        <div class="item">
+            <img src="https://th.bing.com/th/id/R.64e5613f6d2b1a595264ca85e1f3b991?rik=0WRBkExCBY%2bwJQ&pid=ImgRaw&r=0" alt="Croissant">
+            <h3>Croissant</h3>
+            <p>1 unidad - $50</p>
+            <button data-id="1" data-name="Croissant" data-price="50">Agregar</button>
+        </div>
+        <div class="item">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.bXg0M5Z6cz8z2N1EYNrlqgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Galletas">
+            <h3>Galletas</h3>
+            <p>100g - $60</p>
+            <button data-id="2" data-name="Galletas" data-price="60">Agregar</button>
+        </div>
+        <div class="item">
+            <img src="https://sugargeekshow.com/wp-content/uploads/2019/10/chocolate-chip-muffins-featured.jpg" alt="Muffin">
+            <h3>Muffin</h3>
+            <p>1 unidad - $55</p>
+            <button data-id="3" data-name="Muffin" data-price="55">Agregar</button>
+        </div>
+        <div class="item">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.Uy3sMDczWWBQ8JsSFMB-7AHaFj?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Donas">
+            <h3>Donas</h3>
+            <p>2 unidades - $70</p>
+            <button data-id="4" data-name="Donas" data-price="70">Agregar</button>
+        </div>
+        <div class="item">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.64Vdwgd9JpzWEn98iYPlzAHaFj?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Queso">
+            <h3>Queso</h3>
+            <p>150g - $80</p>
+            <button data-id="5" data-name="Queso" data-price="80">Agregar</button>
+        </div>
+        <div class="item">
+            <img src="https://i1.wp.com/www.mamalatinatips.com/wp-content/uploads/2020/07/pan-dulce-final.jpg?w=1500&ssl=1" alt="Pan Dulce">
+            <h3>Pan Dulce</h3>
+            <p>200g - $65</p>
+            <button data-id="6" data-name="Pan Dulce" data-price="65">Agregar</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cart-overlay">
+        <button class="close" onclick="document.getElementById('cart-overlay').classList.remove('show')">×</button>
+        <h2>Tu Carrito</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: $<span id="cart-total">0.00</span></p>
+        <button class="proceed" onclick="proceedToCheckout()">Proceder a comprar</button>
+        <button class="clear" onclick="clearCart()">Vaciar Carrito</button>
+    </div>
+    <script>
+        let cart = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartDisplay();
+            }
+            loadProducts();
+        });
+
+        document.querySelectorAll('.item button').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const price = parseFloat(button.getAttribute('data-price'));
+
+                const item = cart.find(item => item.id === id);
+                if (item) {
+                    item.quantity += 1;
+                } else {
+                    cart.push({ id, name, price, quantity: 1 });
+                }
+                saveCart();
+                updateCartDisplay();
+                alert(`${name} agregado al carrito!`);
+            });
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => {
+                const name = item.querySelector('h3').textContent.toLowerCase();
+                if (name.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('cart-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('cart-overlay').classList.add('show');
+            updateCartDisplay();
+        });
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`;
+                cartItems.appendChild(li);
+                total += item.price * item.quantity;
+            });
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+            document.getElementById('cart-link').textContent = `Carrito (${cart.reduce((sum, item) => sum + item.quantity, 0)})`;
+        }
+
+        function clearCart() {
+            cart = [];
+            saveCart();
+            updateCartDisplay();
+            document.getElementById('cart-overlay').classList.remove('show');
+        }
+
+        function proceedToCheckout() {
+            if (cart.length > 0) {
+                saveCart();
+                window.location.href = 'checkout.html';
+            } else {
+                alert('El carrito está vacío!');
+            }
+        }
+
+        function loadProducts() {
+            // Placeholder for SQL data fetch
+            // fetch('/api/products?category=snacks')
+            //     .then(response => response.json())
+            //     .then(products => {
+            //         const container = document.getElementById('product-container');
+            //         container.innerHTML = '';
+            //         products.forEach(product => {
+            //             const item = document.createElement('div');
+            //             item.className = 'item';
+            //             item.innerHTML = `
+            //                 <img src="https://via.placeholder.com/300x200?text=${product.name}" alt="${product.name}">
+            //                 <h3>${product.name}</h3>
+            //                 <p>${product.weight} - $${product.price}</p>
+            //                 <button data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Agregar</button>
+            //             `;
+            //             container.appendChild(item);
+            //         });
+            //         document.querySelectorAll('.item button').forEach(button => {
+            //             button.addEventListener('click', () => {
+            //                 const id = button.getAttribute('data-id');
+            //                 const name = button.getAttribute('data-name');
+            //                 const price = parseFloat(button.getAttribute('data-price'));
+            //                 const item = cart.find(item => item.id === id);
+            //                 if (item) {
+            //                     item.quantity += 1;
+            //                 } else {
+            //                     cart.push({ id, name, price, quantity: 1 });
+            //                 }
+            //                 saveCart();
+            //                 updateCartDisplay();
+            //                 alert(`${name} agregado al carrito!`);
+            //             });
+            //         });
+            //     })
+            //     .catch(error => console.error('Error loading products:', error));
+        }
+    </script>
+</body>
+</html>

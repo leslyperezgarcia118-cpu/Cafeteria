@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Emir - Registros de Compra</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0d0b, #2e1b16);
+            color: #e0d4c7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid #4a2c2a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #d9a67a;
+        }
+        nav {
+            background: #2e1b16;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #4a2c2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #e0d4c7;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+        nav a:hover {
+            color: #d9a67a;
+        }
+        nav input[type="text"] {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            margin: 0 20px;
+            background: #4a2c2a;
+            color: #e0d4c7;
+            outline: none;
+            font-size: 1rem;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .purchase-history {
+            width: 45%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .purchase-history h2 {
+            color: #d9a67a;
+            margin-bottom: 1rem;
+        }
+        .purchase-history ul {
+            list-style: none;
+            padding: 0;
+        }
+        .purchase-history li {
+            margin: 10px 0;
+            padding: 10px;
+            background: #4a2c2a;
+            border-radius: 5px;
+        }
+        .ticket {
+            width: 45%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        .ticket h2 {
+            color: #d9a67a;
+            margin-bottom: 1rem;
+        }
+        .ticket button {
+            background: linear-gradient(45deg, #d9a67a, #b57d4d);
+            color: #1a0d0b;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+        .ticket button:hover {
+            background: linear-gradient(45deg, #b57d4d, #d9a67a);
+            transform: scale(1.05);
+        }
+        #pdf-output {
+            margin-top: 20px;
+            color: #c9b7a6;
+        }
+        /* Footer Styles */
+        footer {
+            background: #2e1b16;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #4a2c2a;
+            margin-top: 40px;
+        }
+        footer h3 {
+            color: #d9a67a;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        footer li {
+            margin: 5px 0;
+            color: #c9b7a6;
+        }
+    </style>
+    <!-- Incluir jsPDF para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Café Emir - Registros de Compra</h1>
+    </header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="mezclas.html">Mezclas de Café</a>
+        <a href="snacks.html">Snacks</a>
+        <a href="tisanas.html">Tisanas</a>
+        <a href="menu.html">Menú</a>
+        <a href="sucursales.html">Sucursales</a>
+        <input type="text" placeholder="Búsqueda" id="search-input">
+        <a href="#" id="cart-link">Carrito (0)</a>
+        <a href="#" id="login-link">Iniciar Sesión</a>
+    </nav>
+    <div class="container">
+        <div class="purchase-history">
+            <h2>Historial de Compras</h2>
+            <ul id="purchase-list"></ul>
+        </div>
+        <div class="ticket">
+            <h2>Generar Ticket</h2>
+            <button onclick="generateTicket()">Descargar Ticket PDF</button>
+            <div id="pdf-output"></div>
+        </div>
+    </div>
+    <footer>
+        <h3>Registros de Compra</h3>
+        <ul id="purchase-history"></ul>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPurchaseHistory();
+        });
+
+        function loadPurchaseHistory() {
+            const purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+            const purchaseList = document.getElementById('purchase-list');
+            const footerList = document.getElementById('purchase-history');
+            purchaseList.innerHTML = '';
+            footerList.innerHTML = '';
+            purchaseHistory.forEach((purchase, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${purchase.date}</strong><br>Total: $${purchase.total.toFixed(2)}<br>Items: ${purchase.items.map(item => `${item.name} x${item.quantity}`).join(', ')}`;
+                purchaseList.appendChild(li.cloneNode(true));
+                footerList.appendChild(li);
+            });
+        }
+
+        function generateTicket() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+            const latestPurchase = purchaseHistory[purchaseHistory.length - 1];
+            if (!latestPurchase) {
+                document.getElementById('pdf-output').textContent = 'No hay compras recientes para generar un ticket.';
+                return;
+            }
+
+            doc.setFontSize(16);
+            doc.text('Café Emir - Ticket de Compra', 10, 10);
+            doc.setFontSize(12);
+            doc.text(`Fecha: ${new Date().toLocaleString()}`, 10, 20);
+            doc.text(`Cliente: ${localStorage.getItem('loggedInUser') || 'Anónimo'}`, 10, 30);
+            doc.text('Productos:', 10, 40);
+            let y = 50;
+            latestPurchase.items.forEach(item => {
+                doc.text(`${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`, 10, y);
+                y += 10;
+            });
+            doc.text(`Total: $${latestPurchase.total.toFixed(2)}`, 10, y + 10);
+            doc.text('¡Gracias por tu compra! Visítanos de nuevo en Café Emir.', 10, y + 20);
+            doc.save('ticket.pdf');
+            document.getElementById('pdf-output').textContent = 'Ticket generado y descargado como ticket.pdf.';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Café Emir</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0d0b, #2e1b16);
+            color: #e0d4c7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid #4a2c2a;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        nav {
+            background: #2e1b16;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #4a2c2a;
+            width: 100%;
+            position: fixed;
+            top: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav a {
+            color: #e0d4c7;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #d9a67a;
+        }
+        nav input[type="text"] {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 20px;
+            margin: 0 20px;
+            background: #4a2c2a;
+            color: #e0d4c7;
+            outline: none;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4a2c2a;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0d4c7;
+        }
+        .login-container button {
+            background: linear-gradient(45deg, #d9a67a, #b57d4d);
+            color: #1a0d0b;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            width: 100%;
+        }
+        .login-container button:hover {
+            background: linear-gradient(45deg, #b57d4d, #d9a67a);
+            transform: scale(1.05);
+        }
+        /* Cart Styles */
+        .cart-overlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f4e4bc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            text-align: center;
+        }
+        .cart-overlay.show {
+            display: block;
+        }
+        .cart-overlay h2 {
+            margin: 0 0 10px;
+            color: #4a2c2a;
+        }
+        .cart-overlay p {
+            margin: 10px 0;
+            color: #666;
+        }
+        .cart-overlay button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart-overlay .proceed {
+            background: #4a2c2a;
+            color: white;
+        }
+        .cart-overlay .proceed:hover {
+            background: #2e1b16;
+        }
+        .cart-overlay .clear {
+            background: #d9a67a;
+            color: #1a0d0b;
+        }
+        .cart-overlay .clear:hover {
+            background: #b57d4d;
+        }
+        .cart-overlay .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a2c2a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Iniciar Sesión - Café Emir</h1>
+    </header>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="mezclas.html">Mezclas de Café</a>
+        <a href="snacks.html">Snacks</a>
+        <a href="tisanas.html">Tisanas</a>
+        <a href="menu.html">Menú</a>
+        <a href="sucursales.html">Sucursales</a>
+        <input type="text" placeholder="Búsqueda">
+        <a href="#" id="cart-link">Carrito (0)</a>
+    </nav>
+    <div class="login-container">
+        <input type="text" placeholder="Usuario" required>
+        <input type="password" placeholder="Contraseña" required>
+        <button>Iniciar Sesión</button>
+    </div>
+    <div class="cart-overlay" id="cart-overlay">
+        <button class="close" onclick="document.getElementById('cart-overlay').classList.remove('show')">×</button>
+        <h2>Tu Carrito</h2>
+        <p>Total: $0.00</p>
+        <button class="proceed">Proceder a comprar</button>
+        <button class="clear">Vaciar Carrito</button>
+    </div>
+    <script>
+        document.getElementById('cart-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('cart-overlay').classList.add('show');
+        });
+    </script>
+</body>
+</html>
